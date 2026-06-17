@@ -6,6 +6,7 @@ abstract class Tiket {
     protected string $jadwal_tayang;
     protected int $jumlah_kursi;
     protected int $hargaDasarTiket;
+    protected static string $kategoriStudio = '';
 
     public function __construct(
         int $id_tiket, 
@@ -41,9 +42,23 @@ abstract class Tiket {
         return $this->hargaDasarTiket;
     }
 
+    public static function ambilSemuaData(PDO $pdo): array {
+        $kategori = static::$kategoriStudio;
+        $stmt = $pdo->prepare("SELECT * FROM tabel_tiket WHERE jenis_studio = :kategori");
+        $stmt->execute(['kategori' => $kategori]);
+        $rows = $stmt->fetchAll();
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = static::rakitObjek($row);
+        }
+        return $result;
+    }
+
+    abstract protected static function rakitObjek(array $row);
+
     abstract public function hitungTotalHarga(): int;
 
-    abstract public function tampilkanInfoFasilitas(): string;
+    abstract public function tampilkanInfoFasilitas(): array;
 }
 
 ?>
