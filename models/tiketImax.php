@@ -18,6 +18,24 @@ class TiketIMAX extends Tiket {
         $this->kacamata3dId = $kacamata3dId;
         $this->efekGerakFitur = $efekGerakFitur;
     }
-    
+
+    public function getKacamata3dId(): ?string {
+        return $this->kacamata3dId;
+    }
+
+    public function getEfekGerakFitur(): ?bool {
+        return $this->efekGerakFitur;
+    }
+
+    public function hitungTotalHarga(): int {
+        return ($this->jumlah_kursi * $this->hargaDasarTiket) + 35000;
+    }
+
+    public function tampilkanInfoFasilitas(): string {
+        $statusKacamata = $this->kacamata3dId ? "Disediakan (ID: " . $this->kacamata3dId . ")" : "Tidak Disediakan";
+        $statusEfek = $this->efekGerakFitur ? "Aktif" : "Tidak Aktif";
+        
+        return "Kacamata 3D: " . $statusKacamata . ", Efek Gerak: " . $statusEfek;
+    }
 }
 ?>
