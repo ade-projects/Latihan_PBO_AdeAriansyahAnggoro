@@ -1,9 +1,10 @@
 <?php
-require_once 'tiket.php';
+require_once __DIR__ . '/tiket.php';
 
 class TiketRegular extends Tiket {
     private string $tipeAudio;
     private string $lokasiBaris;
+    protected static string $kategoriStudio = 'Regular';
 
     public function __construct(
         int $id_tiket, 
@@ -31,8 +32,23 @@ class TiketRegular extends Tiket {
         return $this->jumlah_kursi * $this->hargaDasarTiket;
     }
 
-    public function tampilkanInfoFasilitas(): string {
-        return "Tipe Audio: " . $this->tipeAudio . ", Lokasi Baris: " . $this->lokasiBaris;
+    public function tampilkanInfoFasilitas(): array {
+        return [
+            'Tipe Audio' => $this->tipeAudio,
+            'Lokasi Baris' => $this->lokasiBaris
+        ];
+    }
+
+    protected static function rakitObjek(array $row): self {
+        return new self(
+            $row['id_tiket'],
+            $row['nama_film'],
+            $row['jadwal_tayang'],
+            $row['jumlah_kursi'],
+            $row['harga_dasar_tiket'],
+            $row['tipe_audio'],
+            $row['lokasi_baris']
+        );
     }
 }
 ?>
